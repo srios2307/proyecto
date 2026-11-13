@@ -1,0 +1,42 @@
+connect admin admin123 administrador centro "Administrador General"
+register_zone centro "Zona Centro" alto 500
+register_sector centro S1 "Sector 1 - Plaza" medio 80
+register_sector centro S3 "Sector 3 - Hospital" critico 120
+register_point S1 PA1 "Punto de atencion Plaza" medio 10
+register_point S3 PA3 "Punto de atencion sector 3" critico 15
+register_zone zona_norte "Zona Norte" medio 300
+register_sector zona_norte N1 "Barrio La Cumbre" alto 90
+register_point N1 PN1 "Punto de atencion La Cumbre" alto 12
+register_zone zona_sur "Zona Sur" bajo 60
+register_center centro_acopio_1 "Centro de Acopio 1" centro_acopio centro
+register_center centro_acopio_2 "Centro de Acopio Norte" centro_acopio zona_norte
+register_shelter A01 "Albergue Norte" zona_norte 150
+register_shelter A02 "Albergue Coliseo" centro 3
+register_resource R001 agua 200 litros centro_acopio_1 "Agua potable"
+register_resource R002 alimentos 150 raciones centro_acopio_1 "Raciones de comida"
+register_resource R003 medicamentos 8 cajas centro_acopio_1 "Analgesicos"
+register_resource R004 primeros_auxilios 40 kits centro_acopio_2 "Kits de primeros auxilios"
+register_resource R005 agua 60 litros centro_acopio_2 "Agua potable"
+register_resource R006 refugio 25 carpas centro_acopio_2 "Carpas"
+transfer_resource R001 centro_acopio_1 A01 30
+connect laura 1234 coordinador centro "Laura Gomez"
+register_need agua 30 critica S3 "Punto de atencion sector 3"
+register_need medicamentos 20 critica S3 "Hospital sin analgesicos"
+register_need alimentos 50 alta centro "Familias del sector 1"
+register_need refugio 10 media zona_norte "Carpas para La Cumbre"
+register_need transporte 2 baja zona_sur "Traslado de adultos mayores"
+assign_resource N001 agua 30
+update_need N001 en_atencion
+connect pedro 5678 voluntario zona_norte "Pedro Ruiz"
+connect carlos 2222 ciudadano zona_norte "Carlos Mora"
+report_person 1001 "Andres Perez" 34 zona_norte localizada
+report_person 1002 "Maria Lopez" 61 centro reportada
+report_person 1003 "Juan Gomez" 8 S3 sin_informacion
+send_family_message 1001 "Estoy bien, estoy en el albergue norte"
+send_family_message familia_lopez "Buscamos a Maria Lopez, llamar al 3001112233"
+report_pet lost perro "Luna" negra mediana zona_norte 3001234567 "collar rojo"
+report_pet lost gato "Michi" gris pequeno centro 3015556677 "ojos verdes"
+use pedro
+register_entry A01 1001
+report_pet found perro desconocido negra mediana zona_norte 3109876543 "collar rojo, asustada"
+exit

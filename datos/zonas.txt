@@ -1,0 +1,10 @@
+# codigo;nombre;tipo;nivel;personas_afectadas;codigo_padre
+centro;Zona Centro;zona;alto;500;
+S1;Sector 1 - Plaza;sector;medio;80;centro
+PA1;Punto de atencion Plaza;punto;medio;10;S1
+S3;Sector 3 - Hospital;sector;critico;120;centro
+PA3;Punto de atencion sector 3;punto;critico;15;S3
+zona_norte;Zona Norte;zona;medio;300;
+N1;Barrio La Cumbre;sector;alto;90;zona_norte
+PN1;Punto de atencion La Cumbre;punto;alto;12;N1
+zona_sur;Zona Sur;zona;bajo;60;

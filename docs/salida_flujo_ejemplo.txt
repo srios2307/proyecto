@@ -1,0 +1,109 @@
+# Salida de la consola para docs/flujo_ejemplo_comandos.txt (flujo de ejemplo del enunciado).
+# Generada con: elixir -pa ebin iniciar.exs datos_flujo < docs/flujo_ejemplo_comandos.txt
+# (despues de cada prompt se agrego el comando que se escribio, para poder leerla).
+
+==============================================================
+ Sistema de Coordinación y Gestión de Emergencias (terremoto)
+==============================================================
+Escriba 'help' para ver los comandos. Para empezar:
+  connect usuario contraseña [tipo zona]
+
+emergencias> help
+Comandos sin sesión:
+  connect usuario contraseña [tipo zona ["nombre completo"]]
+  use usuario                          (cambia la sesión activa)
+  sessions                             (sesiones abiertas)
+  help
+  exit
+Conéctese para ver los comandos de su rol.
+emergencias> connect admin admin123 administrador centro "Administrador General"
+Usuario admin registrado como administrador (zona centro) y conectado. Sesión activa: admin.
+emergencias(admin)> register_zone centro "Zona Centro" alto 500
+Registrado: centro - Zona Centro [zona] nivel alto, 500 personas afectadas
+emergencias(admin)> register_sector centro S3 "Sector 3" critico 120
+Registrado: S3 - Sector 3 [sector] nivel critico, 120 personas afectadas
+emergencias(admin)> register_point S3 PA3 "Punto de atencion sector 3"
+Registrado: PA3 - Punto de atencion sector 3 [punto] nivel bajo, 0 personas afectadas
+emergencias(admin)> register_zone zona_norte "Zona Norte" medio 300
+Registrado: zona_norte - Zona Norte [zona] nivel medio, 300 personas afectadas
+emergencias(admin)> register_center centro_acopio_1 "Centro de Acopio 1" centro_acopio centro
+Centro registrado: centro_acopio_1 - Centro de Acopio 1 (centro_acopio, zona centro)
+emergencias(admin)> connect laura 1234 coordinador centro "Laura Gomez"
+Usuario laura registrado como coordinador (zona centro) y conectado. Sesión activa: laura.
+emergencias(laura)> register_need agua 30 critica centro "Punto de atencion sector 3"
+Necesidad registrada: N001 [critica] agua 0/30 en centro - pendiente - "Punto de atencion sector 3" (laura, 2026-11-09 19:13:29)
+emergencias(laura)> register_resource R001 agua 50 litros centro_acopio_1 "Agua potable"
+Recurso registrado: R001 - Agua potable (agua): 50 litros en centro_acopio_1
+emergencias(laura)> assign_resource N001 agua 30
+Asignación confirmada: N001 [critica] agua 30/30 en centro - asignada - "Punto de atencion sector 3" (laura, 2026-11-09 19:13:29)
+emergencias(laura)> connect pedro 5678 coordinador centro "Pedro Ruiz"
+Usuario pedro registrado como coordinador (zona centro) y conectado. Sesión activa: pedro.
+emergencias(pedro)> register_need agua 25 alta centro "Albergue temporal sector 3"
+Necesidad registrada: N002 [alta] agua 0/25 en centro - pendiente - "Albergue temporal sector 3" (pedro, 2026-11-09 19:13:29)
+emergencias(pedro)> assign_resource N002 agua 25
+ERROR: Inventario insuficiente: solo hay 20 disponibles en un mismo recurso. No se hizo ningún cambio.
+emergencias(pedro)> list_resources
+Recursos (1):
+  R001 - Agua potable (agua): 20 litros en centro_acopio_1
+
+emergencias(pedro)> pending_needs
+Necesidades pendientes (ordenadas por prioridad) (1):
+  N002 [alta] agua 0/25 en centro - pendiente - "Albergue temporal sector 3" (pedro, 2026-11-09 19:13:29)
+
+emergencias(pedro)> use admin
+Sesión activa: admin.
+emergencias(admin)> register_shelter A01 "Albergue Norte" zona_norte 150
+Albergue registrado: A01 - Albergue Norte (zona zona_norte): 0/150 ocupado (0%), 150 cupos libres
+emergencias(admin)> connect carlos 2222 ciudadano zona_norte "Carlos Mora"
+Usuario carlos registrado como ciudadano (zona zona_norte) y conectado. Sesión activa: carlos.
+emergencias(carlos)> report_person 1001 "Andres Perez" 34 zona_norte localizada
+Persona registrada: P001 - Andres Perez (doc 1001, 34 años) zona zona_norte - localizada
+emergencias(carlos)> assign_resource N002 agua 5
+ERROR: Un usuario de tipo 'ciudadano' no tiene permiso para 'assign_resource'.
+emergencias(carlos)> send_family_message 1001 "Estoy bien, estoy en el albergue norte"
+Mensaje guardado: MS001 [pendiente] 2026-11-09 19:13:29 de carlos para 1001: "Estoy bien, estoy en el albergue norte"
+emergencias(carlos)> report_pet lost perro "Luna" negra mediana zona_norte 3001234567 "collar rojo"
+Reporte registrado: MA001 [perdida - activa] perro "Luna" negra, mediana, zona zona_norte, contacto 3001234567 (collar rojo)
+emergencias(carlos)> connect sofia 1111 voluntario zona_norte "Sofia Diaz"
+Usuario sofia registrado como voluntario (zona zona_norte) y conectado. Sesión activa: sofia.
+emergencias(sofia)> register_entry A01 1001
+Albergue actualizado: A01 - Albergue Norte (zona zona_norte): 1/150 ocupado (1%), 149 cupos libres
+emergencias(sofia)> report_pet found perro desconocido negra mediana zona_norte 3109876543 "collar rojo, asustada"
+Reporte registrado: MA002 [encontrada - activa] perro "desconocido" negra, mediana, zona zona_norte, contacto 3109876543 (collar rojo, asustada)
+emergencias(sofia)> match_pets
+Posibles coincidencias (puntaje >= 50), de mayor a menor:
+  MA001 (perdida) <-> MA002 (encontrada): 85 puntos
+
+emergencias(sofia)> find_person nombre=andres
+Personas encontradas (1):
+  P001 - Andres Perez (doc 1001, 34 años) zona zona_norte - en_albergue
+
+emergencias(sofia)> list_family_messages 1001
+Mensajes (1):
+  MS001 [pendiente] 2026-11-09 19:13:29 de carlos para 1001: "Estoy bien, estoy en el albergue norte"
+
+emergencias(sofia)> sessions
+Sesiones abiertas (un proceso Sesion por usuario):
+  admin (administrador, zona centro) desde 2026-11-09 19:13:29
+  carlos (ciudadano, zona zona_norte) desde 2026-11-09 19:13:29
+  laura (coordinador, zona centro) desde 2026-11-09 19:13:29
+  pedro (coordinador, zona centro) desde 2026-11-09 19:13:29
+  sofia (voluntario, zona zona_norte) desde 2026-11-09 19:13:29  <- activa
+
+emergencias(sofia)> use laura
+Sesión activa: laura.
+emergencias(laura)> summary
+===================== RESUMEN GLOBAL =====================
+Recursos restantes por categoría: agua=20
+Necesidades por estado: asignada=1, pendiente=1
+Necesidades pendientes por prioridad: alta=1
+Personas por estado: en_albergue=1
+Mensajes: pendiente=1
+Mascotas por estado: posible_coincidencia=2
+Primeras necesidades pendientes (1):
+  N002 [alta] agua 0/25 en centro - pendiente - "Albergue temporal sector 3" (pedro, 2026-11-09 19:13:29)
+Albergues (más ocupados primero) (1):
+  A01 - Albergue Norte (zona zona_norte): 1/150 ocupado (1%), 149 cupos libres
+==========================================================
+emergencias(laura)> exit
+Sesiones cerradas. Hasta pronto.

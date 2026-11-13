@@ -1,0 +1,4 @@
+# id;tipo_reporte;especie;nombre;caracteristicas;color;tamano;zona;contacto;estado;coincidencia_con
+MA001;perdida;perro;Luna;collar rojo;negra;mediana;zona_norte;3001234567;activa;
+MA002;perdida;gato;Michi;ojos verdes;gris;pequeno;centro;3015556677;activa;
+MA003;encontrada;perro;desconocido;collar rojo, asustada;negra;mediana;zona_norte;3109876543;activa;

@@ -1,0 +1,47 @@
+flowchart TD
+    APP(["iniciar.exs<br/>SupervisorPrincipal.start_link(directorio: ruta_datos)"])
+    SP{{"SupervisorPrincipal<br/>Supervisor · :one_for_one"}}
+    APP --> SP
+
+    BIT["Bitacora<br/>proceso simple<br/>spawn_link + receive<br/>nombre :bitacora"]
+    USR["Usuarios<br/>GenServer"]
+    ZON["Zonas<br/>GenServer"]
+    CEN["Centros<br/>GenServer"]
+    INV["Inventario<br/>GenServer"]
+    NEC["Necesidades<br/>GenServer"]
+    PER["Personas<br/>GenServer"]
+    MAS["Mascotas<br/>GenServer"]
+    ALB["Albergues<br/>GenServer"]
+    SS{{"SupervisorSesiones<br/>DynamicSupervisor · :one_for_one"}}
+
+    SP --> BIT
+    SP --> USR
+    SP --> ZON
+    SP --> CEN
+    SP --> INV
+    SP --> NEC
+    SP --> PER
+    SP --> MAS
+    SP --> ALB
+    SP --> SS
+
+    S1["Sesion laura<br/>GenServer"]
+    S2["Sesion pedro<br/>GenServer"]
+    S3["Sesion …<br/>una por usuario conectado"]
+    SS --> S1
+    SS --> S2
+    SS --> S3
+
+    T1(["Task temporales (Task.async)<br/>summary · zone_status · demo_concurrencia<br/>vinculadas a quien las crea, no supervisadas"])
+    SS ~~~ T1
+
+    classDef sup fill:#FCE4EC,stroke:#AD1457,color:#4A0E25,stroke-width:2px
+    classDef gen fill:#FFF3E0,stroke:#E65100,color:#4A2400
+    classDef simple fill:#E8F5E9,stroke:#2E7D32,color:#123D16
+    classDef din fill:#E3F2FD,stroke:#1565C0,color:#0D2B4E
+    classDef tarea fill:#FFFFFF,stroke:#757575,color:#333333,stroke-dasharray: 5 5
+    class SP,SS sup
+    class USR,ZON,CEN,INV,NEC,PER,MAS,ALB gen
+    class BIT simple
+    class S1,S2,S3 din
+    class T1,APP tarea

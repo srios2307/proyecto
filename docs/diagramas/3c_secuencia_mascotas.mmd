@@ -1,0 +1,30 @@
+sequenceDiagram
+    autonumber
+    actor V as Voluntario
+    actor C as Coordinador
+    participant COM as Comandos
+    participant MAS as Mascotas (GenServer)
+    participant CO as Coincidencias (puro)
+    participant F as datos/mascotas.csv
+
+    V->>COM: match_pets
+    COM->>MAS: Mascotas.buscar_coincidencias()
+    MAS->>CO: pares_candidatos(perdidas, encontradas)
+    loop por cada par perdida–encontrada de la misma especie
+        CO->>CO: calcular_puntaje(perdida, encontrada)<br/>zona +30, color +25, tamaño +20,<br/>nombre +15, palabras en común ≤ +10
+    end
+    CO-->>MAS: pares con puntaje ≥ 50, ordenados
+    MAS->>MAS: ambos reportes → posible_coincidencia
+    MAS->>F: guardar mascotas
+    MAS-->>COM: {:ok, [{"MA001","MA002",75}, ...]}
+
+    C->>COM: confirm_pet_match MA001 MA002
+    COM->>MAS: Mascotas.confirmar_coincidencia("MA001","MA002", usuario)
+    alt ninguno está resuelto
+        MAS->>MAS: Transiciones: ambos → resuelta,<br/>coincidencia_con cruzada
+        MAS->>F: guardar mascotas
+        MAS-->>COM: {:ok, perdida, encontrada}
+    else alguno ya está resuelto (o es una segunda confirmación)
+        MAS-->>COM: {:error, :ya_resuelta}
+        Note over MAS: No se modifica ningún reporte
+    end

@@ -1,0 +1,34 @@
+sequenceDiagram
+    autonumber
+    actor U as Usuario
+    participant CON as Consola
+    participant COM as Comandos
+    participant USR as Usuarios (GenServer)
+    participant SS as SupervisorSesiones
+    participant SES as Sesion (nueva)
+    participant BIT as Bitacora
+    participant F as datos/usuarios.csv
+
+    U->>CON: connect laura 1234 coordinador centro
+    CON->>CON: AnalizadorComandos.analizar(linea)
+    CON->>COM: ejecutar({:connect, args}, estado)
+    COM->>USR: Usuarios.conectar("laura","1234","coordinador","centro")
+    alt el usuario no existe (registro automático)
+        USR->>USR: Validaciones + Usuario.crear(...) con hash de la contraseña
+        USR->>F: Persistencia.guardar_usuarios(usuarios)
+        USR->>SS: iniciar_sesion(usuario)
+        SS->>SES: DynamicSupervisor.start_child(Sesion)
+        SES-->>SS: {:ok, pid}
+        SS-->>USR: {:ok, pid}
+        USR-->>COM: {:ok, usuario, :registrado}
+    else el usuario existe y la contraseña coincide
+        USR->>SS: iniciar_sesion(usuario)
+        SS->>SES: DynamicSupervisor.start_child(Sesion)
+        SS-->>USR: {:ok, pid}
+        USR-->>COM: {:ok, usuario, :autenticado}
+    else el usuario existe y la contraseña no coincide
+        USR-->>COM: {:error, :credenciales_invalidas}
+    end
+    COM-)BIT: Bitacora.registrar("laura", "connect", resultado)
+    COM-->>CON: {resultado, nuevo_estado (sesión activa)}
+    CON->>U: Util2.mostrar(generar_mensaje(resultado))

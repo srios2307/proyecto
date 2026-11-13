@@ -1,0 +1,5 @@
+# documento;fecha;estado_anterior;estado_nuevo;usuario
+1001;2026-11-09 19:05:09;-;localizada;carlos
+1002;2026-11-09 19:05:09;-;reportada;carlos
+1003;2026-11-09 19:05:09;-;sin_informacion;carlos
+1001;2026-11-09 19:05:09;localizada;en_albergue;pedro

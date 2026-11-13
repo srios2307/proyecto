@@ -1,0 +1,73 @@
+flowchart TB
+    U([Usuario en la terminal])
+
+    subgraph INT["1 · Interfaz — único lugar con pantalla"]
+        direction LR
+        CON["Consola<br/>ciclo/1 recursivo"] --> COM["Comandos<br/>ejecutar/2"]
+        CON --> U2["Util2<br/>ingresar / mostrar"]
+    end
+
+    subgraph SUP["2 · Supervisión"]
+        direction LR
+        SP{{"SupervisorPrincipal"}} --> SS{{"SupervisorSesiones"}}
+    end
+
+    subgraph SRV["3 · Servidores — estado y concurrencia (GenServer y procesos)"]
+        direction TB
+        subgraph F1[" "]
+            direction LR
+            USR["Usuarios"] ~~~ SES["Sesion"] ~~~ ZON["Zonas"] ~~~ CEN["Centros"] ~~~ BIT["Bitacora<br/>proceso simple"]
+        end
+        subgraph F2[" "]
+            direction LR
+            NEC["Necesidades"] --> INV["Inventario"]
+            ALB["Albergues"] --> PER["Personas"]
+            MAS["Mascotas"]
+        end
+        F1 ~~~ F2
+    end
+
+    subgraph LOG["4 · Lógica — funciones puras"]
+        direction LR
+        ANA["AnalizadorComandos"] ~~~ PERM["Permisos"] ~~~ TRA["Transiciones"] ~~~ VAL["Validaciones"]
+        ARB["ArbolZonas"] ~~~ PRI["Prioridades"] ~~~ COI["Coincidencias"]
+    end
+
+    subgraph DOM["5 · Dominio — structs"]
+        direction LR
+        D1["Usuario · NodoZona · Centro · Necesidad · Recurso<br/>Movimiento · Persona · Mensaje · Mascota · Albergue"]
+    end
+
+    subgraph PERS["6 · Persistencia — único lugar con archivos"]
+        direction LR
+        PS["Persistencia<br/>a_linea / desde_linea"] --> AR["Archivo<br/>File.stream! · File.write"]
+    end
+
+    TXT[("datos/<br/>texto plano")]
+
+    U --> CON
+    CON -- "analizar(linea)" --> ANA
+    COM -- "API del cliente → GenServer.call" --> SRV
+    COM -- "permitido?(tipo, comando)" --> PERM
+    SUP -. "inicia y vigila" .-> SRV
+    USR -- "iniciar_sesion" --> SS
+    SRV -- "usa" --> LOG
+    SRV -- "crea y transforma" --> DOM
+    LOG --> DOM
+    SRV -- "guardar / cargar" --> PS
+    AR --> TXT
+
+    classDef interfaz fill:#E3F2FD,stroke:#1565C0,color:#0D2B4E
+    classDef supervision fill:#FCE4EC,stroke:#AD1457,color:#4A0E25
+    classDef servidor fill:#FFF3E0,stroke:#E65100,color:#4A2400
+    classDef logica fill:#E8F5E9,stroke:#2E7D32,color:#123D16
+    classDef dominio fill:#F3E5F5,stroke:#6A1B9A,color:#2E0B45
+    classDef persistencia fill:#ECEFF1,stroke:#37474F,color:#1C2529
+    classDef fila fill:none,stroke:none
+    class CON,COM,U2 interfaz
+    class SP,SS supervision
+    class USR,SES,ZON,CEN,NEC,INV,PER,MAS,ALB,BIT servidor
+    class ANA,PERM,TRA,VAL,ARB,PRI,COI logica
+    class D1 dominio
+    class PS,AR,TXT persistencia
+    class F1,F2 fila

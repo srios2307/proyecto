@@ -1,0 +1,4 @@
+# id;documento;nombre;edad;zona;estado
+P001;1001;Andres Perez;34;zona_norte;en_albergue
+P002;1002;Maria Lopez;61;centro;reportada
+P003;1003;Juan Gomez;8;S3;sin_informacion

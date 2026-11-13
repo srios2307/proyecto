@@ -1,0 +1,5 @@
+# codigo;nombre;tipo;zona
+A01;Albergue Norte;albergue;zona_norte
+A02;Albergue Coliseo;albergue;centro
+centro_acopio_1;Centro de Acopio 1;centro_acopio;centro
+centro_acopio_2;Centro de Acopio Norte;centro_acopio;zona_norte

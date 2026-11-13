@@ -1,0 +1,9 @@
+# id;fecha;tipo;codigo_recurso;cantidad;origen;destino;usuario;referencia
+MV0001;2026-11-09 19:05:09;entrada;R001;200;registro;centro_acopio_1;admin;registro
+MV0002;2026-11-09 19:05:09;entrada;R002;150;registro;centro_acopio_1;admin;registro
+MV0003;2026-11-09 19:05:09;entrada;R003;8;registro;centro_acopio_1;admin;registro
+MV0004;2026-11-09 19:05:09;entrada;R004;40;registro;centro_acopio_2;admin;registro
+MV0005;2026-11-09 19:05:09;entrada;R005;60;registro;centro_acopio_2;admin;registro
+MV0006;2026-11-09 19:05:09;entrada;R006;25;registro;centro_acopio_2;admin;registro
+MV0007;2026-11-09 19:05:09;transferencia;R001;30;centro_acopio_1;A01;admin;R001-A01
+MV0008;2026-11-09 19:05:09;asignacion;R001;30;centro_acopio_1;S3;laura;N001

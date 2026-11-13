@@ -1,0 +1,6 @@
+# id;tipo;descripcion;requerida;asignada;zona;prioridad;responsable;estado;fecha;asignaciones
+N001;agua;Punto de atencion sector 3;30;30;S3;critica;laura;en_atencion;2026-11-09 19:05:09;R001:30
+N002;medicamentos;Hospital sin analgesicos;20;0;S3;critica;laura;pendiente;2026-11-09 19:05:09;
+N003;alimentos;Familias del sector 1;50;0;centro;alta;laura;pendiente;2026-11-09 19:05:09;
+N004;refugio;Carpas para La Cumbre;10;0;zona_norte;media;laura;pendiente;2026-11-09 19:05:09;
+N005;transporte;Traslado de adultos mayores;2;0;zona_sur;baja;laura;pendiente;2026-11-09 19:05:09;

@@ -1,0 +1,110 @@
+classDiagram
+    direction LR
+    class Usuario {
+        +String usuario
+        +String hash_contrasena
+        +String nombre_completo
+        +String tipo
+        +String zona
+        +String fecha_registro
+    }
+    class NodoZona {
+        +String codigo
+        +String nombre
+        +atom tipo  :zona | :sector | :punto
+        +String nivel
+        +int personas_afectadas
+        +list~NodoZona~ hijos
+    }
+    class Centro {
+        +String codigo
+        +String nombre
+        +String tipo
+        +String zona
+    }
+    class Necesidad {
+        +String id  N001
+        +String tipo
+        +String descripcion
+        +int cantidad_requerida
+        +int cantidad_asignada
+        +String zona
+        +String prioridad
+        +String responsable
+        +String estado
+        +String fecha
+        +list~tupla~ asignaciones  codigo, cantidad
+    }
+    class Recurso {
+        +String codigo
+        +String nombre
+        +String categoria
+        +int cantidad
+        +String unidad
+        +String ubicacion
+    }
+    class Movimiento {
+        +String id  MV0001
+        +String fecha
+        +String tipo
+        +String codigo_recurso
+        +int cantidad
+        +String origen
+        +String destino
+        +String usuario
+        +String referencia
+    }
+    class Persona {
+        +String id  P001
+        +String documento
+        +String nombre
+        +int edad
+        +String zona
+        +String estado
+        +list~tupla~ historial  fecha, anterior, nuevo, usuario
+    }
+    class Mensaje {
+        +String id  MS001
+        +String fecha
+        +String remitente
+        +String destinatario
+        +String contenido
+        +String estado
+    }
+    class Mascota {
+        +String id  MA001
+        +String tipo_reporte
+        +String especie
+        +String nombre
+        +String caracteristicas
+        +String color
+        +String tamano
+        +String zona
+        +String contacto
+        +String estado
+        +String coincidencia_con
+    }
+    class Albergue {
+        +String codigo
+        +String nombre
+        +String zona
+        +int capacidad
+        +MapSet ocupantes  documentos
+    }
+
+    NodoZona "1" *-- "0..*" NodoZona : hijos (zona→sector→punto)
+    NodoZona "1" <-- "0..*" Centro : zona
+    NodoZona "1" <-- "0..*" Necesidad : zona
+    NodoZona "1" <-- "0..*" Albergue : zona
+    NodoZona "1" <-- "0..*" Persona : zona
+    NodoZona "1" <-- "0..*" Mascota : zona
+    Centro "1" <-- "0..*" Recurso : ubicacion
+    Recurso "1" <-- "0..*" Movimiento : codigo_recurso
+    Necesidad "0..*" --> "0..*" Recurso : asignaciones
+    Necesidad "1" <-- "0..*" Movimiento : referencia
+    Usuario "1" <-- "0..*" Necesidad : responsable
+    Usuario "1" <-- "0..*" Mensaje : remitente
+    Usuario "1" <-- "0..*" Movimiento : usuario
+    Persona "1" <-- "0..*" Mensaje : destinatario
+    Albergue "1" o-- "0..*" Persona : ocupantes (documento)
+    Mascota "0..1" -- "0..1" Mascota : coincidencia_con

@@ -1,0 +1,8 @@
+# codigo;nombre;categoria;cantidad;unidad;ubicacion
+R001;Agua potable;agua;140;litros;centro_acopio_1
+R001-A01;Agua potable;agua;30;litros;A01
+R002;Raciones de comida;alimentos;150;raciones;centro_acopio_1
+R003;Analgesicos;medicamentos;8;cajas;centro_acopio_1
+R004;Kits de primeros auxilios;primeros_auxilios;40;kits;centro_acopio_2
+R005;Agua potable;agua;60;litros;centro_acopio_2
+R006;Carpas;refugio;25;carpas;centro_acopio_2
