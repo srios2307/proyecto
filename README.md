@@ -1,7 +1,7 @@
 # Sistema Distribuido de Coordinación y Gestión de Emergencias (Elixir)
 
 Proyecto final de **Programación III** — Universidad del Quindío, Ingeniería de Sistemas y Computación.
-Contexto: atención y coordinación posterior a un terremoto. Enunciado completo en.
+Contexto: atención y coordinación posterior a un terremoto. 
 
 Licencia: GNU GPL v3.
 
